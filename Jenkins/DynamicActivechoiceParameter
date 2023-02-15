@@ -1,0 +1,67 @@
+--------------------------Environment--------------------------
+return  ["PROD", "STG", "MTE"]
+
+
+--------------------------SubEnv--------------------------
+if (Environment.equals("PROD")){
+return ["prod01", "prod02"]
+}
+else if (Environment.equals("STG")){
+return ["stg01", "stg02"]
+}
+else if (Environment.equals("MTE")){
+return ["mte01", "mte02"]
+}
+else {
+return ["select env"]
+}
+
+
+--------------------------Branch--------------------------
+if (Environment.equals("PROD")){
+def gitUrl = "https://github.com/debadattagadanayak/demo-prod"
+def cmd = "git ls-remote --heads ${gitUrl}"
+def proc = cmd.execute()
+def out = proc.text.trim()
+
+def branches = []
+out.eachLine { line ->
+    def parts = line.split("\t")
+    def ref = parts[1].substring("refs/heads/".length())
+    branches.add(ref)
+}
+return branches
+}
+else if (Environment.equals("STG")){
+def gitUrl = "https://github.com/debadattagadanayak/demo-stg"
+def cmd = "git ls-remote --heads ${gitUrl}"
+def proc = cmd.execute()
+def out = proc.text.trim()
+
+def branches = []
+out.eachLine { line ->
+    def parts = line.split("\t")
+    def ref = parts[1].substring("refs/heads/".length())
+    branches.add(ref)
+}
+return branches
+}
+else if (Environment.equals("MTE")){
+def gitUrl = "https://github.com/debadattagadanayak/demo-mte"
+def cmd = "git ls-remote --heads ${gitUrl}"
+def proc = cmd.execute()
+def out = proc.text.trim()
+
+def branches = []
+out.eachLine { line ->
+    def parts = line.split("\t")
+    def ref = parts[1].substring("refs/heads/".length())
+    branches.add(ref)
+}
+return branches
+}
+else {
+return ["select env"]
+}
+
+
